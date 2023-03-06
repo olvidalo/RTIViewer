@@ -27,6 +27,8 @@
 #include <cmath>
 #endif
 
+#include <random>
+
 #include <QApplication>
 #include <QColor>
 #include <QPainter>
@@ -59,7 +61,11 @@ DetailEnhancement::DetailEnhancement():
 	// Computes the initial light samples on entire hemishpere.
 	std::vector<vcg::Point3f> uniformDirVec;
 	vcg::GenNormal<float>::UniformCone(256, uniformDirVec, vcg::math::ToRad(80.0f), vcg::Point3f(0,0,1));
-	std::random_shuffle(uniformDirVec.begin(), uniformDirVec.end());
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(uniformDirVec.begin(), uniformDirVec.end(), g);
+
+//    std::random_shuffle(uniformDirVec.begin(), uniformDirVec.end());
 	float limit = cos(vcg::math::ToRad(40.0f));
 	for (unsigned int i = 0; i < uniformDirVec.size(); i++)
 	{
