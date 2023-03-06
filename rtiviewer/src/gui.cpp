@@ -111,10 +111,11 @@ QFrame * RtiViewerDlg::initBrowserFrame()
 {
     // Create a new browser
 
-	QGLFormat openGLFormat;
-	openGLFormat.setVersion(2, 1);
+//	QGLFormat openGLFormat;
+//	openGLFormat.setVersion(2, 1);
 
-    browser = new RtiBrowser(650, 650, NULL, maxZoom, this, openGLFormat);
+//    browser = new RtiBrowser(650, 650, NULL, maxZoom, this, openGLFormat);
+    browser = new RtiBrowser(650, 650, NULL, maxZoom, this);
 
     // Create the browser layout.
 

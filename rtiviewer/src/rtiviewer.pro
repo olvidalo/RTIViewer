@@ -5,7 +5,7 @@ CONFIG += qt debug_and_release xml network opengl warn_off #consol
 
 DESTDIR = bin
 QT += opengl xml network
-greaterThan(QT_MAJOR_VERSION, 4): QT += core gui widgets http
+greaterThan(QT_MAJOR_VERSION, 4): QT += core gui widgets openglwidgets
 UI_DIR = ui
 MOC_DIR = moc
 
@@ -33,15 +33,19 @@ macx-g++:QMAKE_CXXFLAGS += -O3 -msse2 -fopenmp -funroll-loops -ffast-math -fforc
 
 macx-g++:QMAKE_CFLAGS += -O3 -msse2 -fopenmp -funroll-loops -ffast-math -fforce-addr -fno-math-errno -ftree-vectorize
 
-else: QMAKE_LIBS += -lgomp
+else: QMAKE_LIBS += -O3 -msse2 -fopenmp -funroll-loops -ffast-math -fforce-addr -fno-math-errno -ftree-vectorize # -lgomp
+QMAKE_CFLAGS += -fopenmp
+QMAKE_CXXFLAGS += -fopenmp
 
 # macx-g++:QMAKE_LFLAGS = -O3
 # macx-g++:QMAKE_CXXFLAGS = -O3
 # macx-g++:QMAKE_CFLAGS = -O3
 
 INCLUDEPATH += ../../vcglib \
+    ../../vcglib/eigenlib \
     ../../compression/src/ \
-    ../../rtiwebmaker/src
+    ../../rtiwebmaker/src \
+    /usr/local/lib
 
 SOURCES = ptm.cpp \
     gui.cpp \

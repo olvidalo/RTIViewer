@@ -94,7 +94,7 @@ int UniversalRti::load(QString name, CallBackPos *cb)
 	//Gets width, height, number of color
 	str = getLine(file, &eof);
 	if (eof) return -1;
-	QStringList list = str.split(' ',  QString::SkipEmptyParts);
+	QStringList list = str.split(' ',  Qt::SkipEmptyParts);
 	if (list.size() != 3)
 		return -1;
 	w = list[0].toInt(&error);
@@ -107,7 +107,7 @@ int UniversalRti::load(QString name, CallBackPos *cb)
 	//Gets number of basis term, basis type, element size.
 	str = getLine(file, &eof);
 	if (eof) return -1;
-	list = str.split(' ',  QString::SkipEmptyParts);
+	list = str.split(' ',  Qt::SkipEmptyParts);
 	if (list.size() != 3)
 		return -1;
 	int basisTerm = list[0].toInt(&error);

@@ -172,7 +172,7 @@ int RGBPtm::loadData(FILE* file, int width, int height, int basisTerm, bool urti
 		bool eof, error; 
 		QString str = getLine(file, &eof);
 		if (eof) return -1;
-		QStringList list = str.split(' ',  QString::SkipEmptyParts);
+        QStringList list = str.split(' ',  Qt::SkipEmptyParts);
 		if (list.size() != 6)
 			return -1;
 		for (int i = 0; i < 6; i++)
@@ -184,7 +184,7 @@ int RGBPtm::loadData(FILE* file, int width, int height, int basisTerm, bool urti
 		//Gets bias value
 		str = getLine(file, &eof);
 		if (eof) return -1;
-		list = str.split(' ',  QString::SkipEmptyParts);
+        list = str.split(' ',  Qt::SkipEmptyParts);
 		if (list.size() != basisTerm)
 			return -1;
 		for (int i = 0; i < basisTerm; i++)
@@ -604,7 +604,7 @@ int LRGBPtm::loadData(FILE* file, int width, int height, int basisTerm, bool urt
 		bool eof, error;
 		QString str = getLine(file, &eof);
 		if (eof) return -1;
-		QStringList list = str.split(' ', QString::SkipEmptyParts);
+        QStringList list = str.split(' ', Qt::SkipEmptyParts);
 		if (list.size() != 6)
 			return -1;
 		for (int i = 0; i < 6; i++)
@@ -616,7 +616,7 @@ int LRGBPtm::loadData(FILE* file, int width, int height, int basisTerm, bool urt
 		//Gets bias value
 		str = getLine(file, &eof);
 		if (eof) return -1;
-		list = str.split(' ',  QString::SkipEmptyParts);
+        list = str.split(' ',  Qt::SkipEmptyParts);
 		if (list.size() != 6)
 			return -1;
 		for (int i = 0; i < 6; i++)

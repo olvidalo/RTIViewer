@@ -37,10 +37,12 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 
 #include <iostream>
 
-RtiBrowser::RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget *parent, const QGLFormat& format): QGLWidget(format, parent),
+//RtiBrowser::RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget *parent, const QGLFormat& format): QOpenGLWidget(format, parent),
+RtiBrowser::RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget *parent): QOpenGLWidget(parent),
 gui((RtiViewerDlg*)parent),
 img(NULL),
 light(0,0,1),
@@ -237,39 +239,39 @@ int RtiBrowser::getCurrentRendering()
 
 void RtiBrowser::initializeGL()
 {
-	QGLFormat format = this->format();
-    unsigned int value = ((unsigned int)QGLFormat::openGLVersionFlags() | (unsigned int)QGLFormat::OpenGL_Version_2_1);
-	if (value == 0)
-	{
-        QString version;
-        switch(QGLFormat::openGLVersionFlags())
-        {
-            case QGLFormat::OpenGL_Version_1_1:
-                version = "1.1";
-                break;
-            case QGLFormat::OpenGL_Version_1_2:
-                version = "1.2";
-                break;
-            case QGLFormat::OpenGL_Version_1_3:
-                version = "1.3";
-                break;
-            case QGLFormat::OpenGL_Version_1_4:
-                version = "1.4";
-                break;
-            case QGLFormat::OpenGL_Version_1_5:
-                version = "1.5";
-                break;
-            case QGLFormat::OpenGL_Version_2_0:
-                version = "2.0";
-                break;
-            default:
-                version = "unknown";
-                break;
-        }
-	    QString message("RTIViewer requires your graphics card to support OpenGL version 2.1 or later. Your graphic card currently uses version %1. To solve this problem, please update your graphics drivers. If the updated drivers do not support version 2.1 or later, you may have rendering problems.");
-        message.arg(version);
-		QMessageBox::warning(this, tr("RTIViewer"), message);
-	}
+//	QGLFormat format = this->format();
+//    unsigned int value = ((unsigned int)QGLFormat::openGLVersionFlags() | (unsigned int)QGLFormat::OpenGL_Version_2_1);
+//	if (value == 0)
+//	{
+//        QString version;
+//        switch(QGLFormat::openGLVersionFlags())
+//        {
+//            case QGLFormat::OpenGL_Version_1_1:
+//                version = "1.1";
+//                break;
+//            case QGLFormat::OpenGL_Version_1_2:
+//                version = "1.2";
+//                break;
+//            case QGLFormat::OpenGL_Version_1_3:
+//                version = "1.3";
+//                break;
+//            case QGLFormat::OpenGL_Version_1_4:
+//                version = "1.4";
+//                break;
+//            case QGLFormat::OpenGL_Version_1_5:
+//                version = "1.5";
+//                break;
+//            case QGLFormat::OpenGL_Version_2_0:
+//                version = "2.0";
+//                break;
+//            default:
+//                version = "unknown";
+//                break;
+//        }
+//	    QString message("RTIViewer requires your graphics card to support OpenGL version 2.1 or later. Your graphic card currently uses version %1. To solve this problem, please update your graphics drivers. If the updated drivers do not support version 2.1 or later, you may have rendering problems.");
+//        message.arg(version);
+//		QMessageBox::warning(this, tr("RTIViewer"), message);
+//	}
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glViewport(0, 0, _width, _height);
@@ -283,6 +285,27 @@ void RtiBrowser::initializeGL()
 	glOrtho(0.0f, (GLfloat)_width, (GLfloat)_height, 0.0f, -1.0f, 1.0f);
 
 }
+
+//void RtiBrowser::renderText(double x, double y, double z, const QString &str, const QFont & font = QFont()) {
+//    // Identify x and y locations to render text within widget
+//    int height = this->height();
+//    GLdouble textPosX = 0, textPosY = 0, textPosZ = 0;
+//    project(x, y, 0, &textPosX, &textPosY, &textPosZ);
+//    textPosY = height - textPosY; // y is inverted
+
+//    // Retrieve last OpenGL color to use as a font color
+//    GLdouble glColor[4];
+//    glGetDoublev(GL_CURRENT_COLOR, glColor);
+//    QColor fontColor = QColor(glColor[0], glColor[1], glColor[2], glColor[3]);
+
+//    // Render text
+//    QPainter painter(this);
+//    painter.setPen(fontColor);
+//    painter.setFont(font);
+//    painter.drawText(textPosX, textPosY, str);
+//    painter.end();
+//}
+
 
 
 void RtiBrowser::paintGL()
@@ -344,7 +367,11 @@ void RtiBrowser::paintGL()
             // makes it visible against any background color.
 
             glLineWidth(1.0);
-            qglColor(Qt::white);
+//            qglColor(Qt::white);
+            QColor whiteColor = Qt::white;
+            QColor blackColor = Qt::black;
+            glColor4f(whiteColor.redF(), whiteColor.greenF(), whiteColor.blueF(), whiteColor.alphaF());
+
             glBegin(GL_LINE_LOOP);
             glVertex3f(x1, y1, 0.0f);
             glVertex3f(x2, y1, 0.0f);
@@ -353,7 +380,7 @@ void RtiBrowser::paintGL()
             glEnd();
 
             glLineWidth(2.0);
-            qglColor(Qt::black);
+            glColor4f(blackColor.redF(), blackColor.greenF(), blackColor.blueF(), blackColor.alphaF());
             glBegin(GL_LINE_LOOP);
             glVertex3f(x1 - 2, y1 - 2, 0.0f);
             glVertex3f(x2 + 2, y1 - 2, 0.0f);
@@ -371,6 +398,9 @@ void RtiBrowser::paintGL()
 
     if (drawingHighlightBox)
     {
+        QColor whiteColor = Qt::white;
+        QColor blackColor = Qt::black;
+
         // Disable the texture while we draw the highlight box. If we don't
         // disable the texture, OpenGL ignores the line color commands.
 
@@ -380,7 +410,7 @@ void RtiBrowser::paintGL()
         // makes it visible against any background color.
 
         glLineWidth(1.0);
-        qglColor(Qt::white);
+        glColor4f(whiteColor.redF(), whiteColor.greenF(), whiteColor.blueF(), whiteColor.alphaF());
         glBegin(GL_LINE_LOOP);
         glVertex2f(bmStartX, bmStartY);
         glVertex2f(bmEndX, bmStartY);
@@ -408,7 +438,7 @@ void RtiBrowser::paintGL()
         }
 
         glLineWidth(2.0);
-        qglColor(Qt::black);
+        glColor4f(blackColor.redF(), blackColor.greenF(), blackColor.blueF(), blackColor.alphaF());
         glBegin(GL_LINE_LOOP);
         glVertex2f(bmStartX + shiftStartX, bmStartY + shiftStartY);
         glVertex2f(bmEndX + shiftEndX, bmStartY + shiftStartY);
@@ -463,7 +493,7 @@ void RtiBrowser::paintGL()
 		case LIGHT_VECTOR2: text = "LIGHT VECTORS"; break;
 		default: text = "";
 	}
-	renderText(20, _height - 20, text, font);
+//	renderText(20, _height - 20, text, font);
 	glPopAttrib();
 	glPopMatrix(); // restore modelview
 	glMatrixMode(GL_PROJECTION);
@@ -592,7 +622,7 @@ void RtiBrowser::mousePressEvent(QMouseEvent *event)
         timer->start(1);
         dragging = true;
     }
-    else if (event->button() == Qt::MidButton)
+    else if (event->button() == Qt::MiddleButton)
     {
         // Begins a operation to modify the light direction.
         QApplication::setOverrideCursor(QCursor(Qt::CrossCursor));
@@ -761,7 +791,7 @@ void RtiBrowser::mouseReleaseEvent(QMouseEvent *event)
             updateTexture();
         }
     }
-    else if (event->button() == Qt::MidButton)
+    else if (event->button() == Qt::MiddleButton)
     {
         QApplication::restoreOverrideCursor();
         timer->stop();
@@ -803,9 +833,9 @@ void RtiBrowser::wheelEvent(QWheelEvent *event)
 {
     if (!img) return;
 	// Updates the zoom info.
-	if (zoom == minZoom && event->delta() < 0) return;
-	if (zoom == maxZoom && event->delta() > 0) return;
-    zoom = zoom + event->delta()*0.001;
+    if (zoom == minZoom && event->angleDelta().y() < 0) return;
+    if (zoom == maxZoom && event->angleDelta().y() > 0) return;
+    zoom = zoom + event->angleDelta().y()*0.001;
     if (zoom > maxZoom)
         zoom = maxZoom;
     else if (zoom < minZoom)
@@ -1095,7 +1125,7 @@ void RtiBrowser::updateTexture(bool refresh)
     img->createImage(&textureData, textureWidth, textureHeight, light, subimg, level, currentMode);
     isNewTexture = true;
     if (refresh)
-        updateGL();
+        update();
     QTime second = QTime::currentTime();
     if (first.msecsTo(second) > 120)
     {

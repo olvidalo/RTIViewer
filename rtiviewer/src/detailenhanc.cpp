@@ -1154,7 +1154,7 @@ void DetailEnhancement::generateVectImage()
 	int length = deltaW < deltaH ? deltaW: deltaH;
 	length -= 3;
 	QPainter painter(vectImage);
-	painter.setRenderHint(QPainter::NonCosmeticDefaultPen);
+//	painter.setRenderHint(QPainter::NonCosmeticDefaultPen);
 	QPen pen(QColor(255, 0, 0));
 	pen.setWidth(1);
 	painter.setPen(pen);

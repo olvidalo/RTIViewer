@@ -55,6 +55,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include <QMimeData>
+
 // RtiViewerDlg points to BookmarkControl and RtiBrowser, both of which
 // point to RtiViewerDlg. Forward-declare BookmarkControl and RtiBrowser
 // to resolve the circular dependencies.

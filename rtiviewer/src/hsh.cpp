@@ -671,7 +671,7 @@ int Hsh::allocateRemoteImage(QBuffer* b)
 	QDomElement scaleNode = root.firstChildElement("ScaleInfo");
 	if (scaleNode.isNull())
 		return -1;
-	QStringList scaleList = scaleNode.text().split(" ", QString::SkipEmptyParts);
+	QStringList scaleList = scaleNode.text().split(" ", Qt::SkipEmptyParts);
 	if (scaleList.size() < ordlen)
 		return -1;
 	for (int i = 0; i < ordlen; i++)
@@ -684,7 +684,7 @@ int Hsh::allocateRemoteImage(QBuffer* b)
 	QDomElement biasNode = root.firstChildElement("BiasInfo");
 	if (biasNode.isNull())
 		return -1;
-	QStringList biasList = biasNode.text().split(" ", QString::SkipEmptyParts);
+	QStringList biasList = biasNode.text().split(" ", Qt::SkipEmptyParts);
 	if (biasList.size() < ordlen)
 		return -1;
 	for (int i = 0; i < ordlen; i++)

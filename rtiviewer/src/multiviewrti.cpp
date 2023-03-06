@@ -149,7 +149,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 	{
 		line = stream.readLine();
 	} while (line.startsWith("#"));
-	QStringList strList = line.split(' ',  QString::SkipEmptyParts);
+	QStringList strList = line.split(' ',  Qt::SkipEmptyParts);
 	if (strList.count() < 3)
 		return -1;
 	maxViewX = strList.at(0).toInt(&error);
@@ -160,7 +160,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 	if (!error) return -1;
 
 	line = stream.readLine();
-	strList = line.split(' ',  QString::SkipEmptyParts);
+	strList = line.split(' ',  Qt::SkipEmptyParts);
 	if (strList.count() < 2)
 		return -1;
 	startX = strList.at(0).toInt(&error);
@@ -169,7 +169,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 	if (!error) return -1;
 		
 	line = stream.readLine();
-	strList = line.split(' ',  QString::SkipEmptyParts);
+	strList = line.split(' ',  Qt::SkipEmptyParts);
 	if (strList.count() < 4)
 		return -1;
 	int temp = strList.at(0).toInt(&error);
@@ -187,7 +187,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 	{
 		if (cb != NULL)(*cb)(i * 60 / nViewpoint, "Loading RTI file...");
 		line = stream.readLine();
-		strList = line.split(' ',  QString::SkipEmptyParts);
+		strList = line.split(' ',  Qt::SkipEmptyParts);
 		if (strList.count() < 2)
 			return -1;
 		QFile image(QString("%1/%2").arg(info.absolutePath()).arg(strList.at(1)));
@@ -205,7 +205,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 	for (int i = 0; i < maxViewY; i++)
 	{
 		line = stream.readLine();
-		strList = line.split(' ',  QString::SkipEmptyParts);
+		strList = line.split(' ',  Qt::SkipEmptyParts);
 		if (strList.count() < maxViewX)
 			return -1;
 		for (int j = 0; j < maxViewX; j++)
@@ -232,7 +232,7 @@ int MultiviewRti::load(QString name, CallBackPos *cb)
 		{
 			if (cb != NULL)(*cb)(60 + i * 40 / nViewpoint, "Loading Optical flow data ...");
 			line = stream.readLine();
-			strList = line.split(' ',  QString::SkipEmptyParts);
+			strList = line.split(' ',  Qt::SkipEmptyParts);
 			if (strList.count() < 5)
 				return -1;
 			for (int j = 0; j < 4; j++)
@@ -304,7 +304,7 @@ int MultiviewRti::loadFlowData(const QString &path, std::vector<float>** output)
 		if (eof) return -1;
 	} while (str.startsWith("#"));
 
-	QStringList strList = str.split(' ',  QString::SkipEmptyParts);
+	QStringList strList = str.split(' ',  Qt::SkipEmptyParts);
 	if (strList.count() < 2) return -1;
 	int width = strList.at(0).toInt(&error);
 	if (!error) return -1;
@@ -313,7 +313,7 @@ int MultiviewRti::loadFlowData(const QString &path, std::vector<float>** output)
 
 	str = getLine(file, &eof);
 	if (eof) return -1;
-	strList = str.split(' ',  QString::SkipEmptyParts);
+	strList = str.split(' ',  Qt::SkipEmptyParts);
 	if (strList.count() < 3) return -1;
 	int elementSize = strList.at(0).toInt(&error);
 	if (!error) return -1;

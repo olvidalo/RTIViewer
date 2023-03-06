@@ -47,7 +47,7 @@
 #endif
 
 // Qt headers
-#include <QGLWidget>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QShortcut>
 #include <QTimer>
 
@@ -60,7 +60,7 @@ class RtiViewerDlg;
 /*!
   The class defines the browser for RTI image.
 */
-class RtiBrowser : public QGLWidget
+class RtiBrowser : public QOpenGLWidget
 {
 	Q_OBJECT
 
@@ -75,8 +75,9 @@ public:
 	  \param maxZ maximum zoom level.
 	  \param parent
 	*/
-	RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget * parent, const QGLFormat& format);
-	~RtiBrowser();
+//	RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget * parent, const QGLFormat& format);
+    RtiBrowser(int w, int h, Rti *image, int maxZ, QWidget * parent);
+    ~RtiBrowser();
 
 	/*!
 	  Sets the RTI image to display in the browser.

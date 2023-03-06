@@ -140,7 +140,7 @@ void Navigator::mouseReleaseEvent(QMouseEvent *event)
 void Navigator::wheelEvent(QWheelEvent *event)
 {
 	if (!image) return;
-        float off = event->delta()*0.05;
+        float off = event->angleDelta().y()*0.05;
 
 	int limitH, limitW;
 	limitW = (pos.width() * browserWidth / maxZoom)/rtiWidth;
