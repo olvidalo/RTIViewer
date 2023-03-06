@@ -29,7 +29,7 @@
 
 #include <QThread>
 #include <QUrl>
-#include <QtHttp>
+//#include <QtHttp>
 #include <QBuffer>
 #include <QMutex>
 #include <QWaitCondition>
@@ -90,7 +90,7 @@ private:
 
 	Rti* image; /*!< Pointer to RTI image. */
 
-	QHttp* http; /*!< Http getter. */
+//	QHttp* http; /*!< Http getter. */
 	QUrl* url; /*!< Base url for the request.*/
 
 	QMutex& mutex; /*!< Mutex to provide a mutual exclusion lock between the GUI thread and the HTTP thread. */
@@ -170,7 +170,7 @@ private slots:
 	  The slot is invoked when a HTTP reply header is received.
 	  \param responseHeader reply header.
 	*/
-	void readResponseHeader(const QHttpResponseHeader & responseHeader);
+//	void readResponseHeader(const QHttpResponseHeader & responseHeader);
 
 	/*!
 	  The slot is invoked to send the current tile request.

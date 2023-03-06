@@ -29,7 +29,7 @@
 
 
 HttpWorker::HttpWorker(QMutex& m, QWaitCondition& w, QObject* parent): QObject(parent),
-	http(NULL),
+//	http(NULL),
 	image(NULL),
 	mutex(m),
 	infoReady(w),
@@ -52,8 +52,8 @@ HttpWorker::~HttpWorker()
 {
 	if (url)
 		delete url;
-	if (http)
-		delete http;
+//	if (http)
+//		delete http;
 	if (timer) 
 		delete timer;
 	if (current)
@@ -87,8 +87,8 @@ void HttpWorker::httpRequestFinished(int id, bool error)
 			{
 				httpError = true;
 				QUrl errorUrl(*url);
-				errorUrl = errorUrl.resolved(http->currentRequest().path());
-				emit errorOccurred(tr("Connection failed:\n%1.\n%2").arg(http->errorString()).arg(errorUrl.toString()));
+//				errorUrl = errorUrl.resolved(http->currentRequest().path());
+//				emit errorOccurred(tr("Connection failed:\n%1.\n%2").arg(http->errorString()).arg(errorUrl.toString()));
 			}
 			mutex.lock();
 			infoReady.wakeAll();
@@ -188,19 +188,19 @@ void HttpWorker::httpRequestFinished(int id, bool error)
 }
 
 
-void HttpWorker::readResponseHeader(const QHttpResponseHeader & responseHeader)
-{
-	if (responseHeader.statusCode() != 200)
-	{
-		httpError = true;
-		if (syncRequest)
-		{
-			QUrl errorUrl(*url);
-			errorUrl = errorUrl.resolved(http->currentRequest().path());
-			emit errorOccurred(tr("Connection failed:\n%1 %2\n%3").arg(responseHeader.statusCode()).arg(responseHeader.reasonPhrase()).arg(errorUrl.toString()));
-		}
-	}
-}
+//void HttpWorker::readResponseHeader(const QHttpResponseHeader & responseHeader)
+//{
+//	if (responseHeader.statusCode() != 200)
+//	{
+//		httpError = true;
+//		if (syncRequest)
+//		{
+//			QUrl errorUrl(*url);
+//			errorUrl = errorUrl.resolved(http->currentRequest().path());
+//			emit errorOccurred(tr("Connection failed:\n%1 %2\n%3").arg(responseHeader.statusCode()).arg(responseHeader.reasonPhrase()).arg(errorUrl.toString()));
+//		}
+//	}
+//}
 
 
 void HttpWorker::sendRequestTiles()
@@ -211,7 +211,7 @@ void HttpWorker::sendRequestTiles()
 		received = false;
 		QString tilename = tr("./tile_lvl%1_%2.dat").arg(current->level).arg(current->zIndex);
 		QUrl relativeUrl(tilename);
-		idReq = http->get(url->resolved(relativeUrl).path(), current->buffer);
+//		idReq = http->get(url->resolved(relativeUrl).path(), current->buffer);
 	}
 }
 
@@ -225,14 +225,14 @@ void HttpWorker::setUrl(QUrl* u, QString name)
 		if (url)
 			delete url;
 		url = u;
-		if (http)
+        /*if (http)
 			delete http;
 		http = new QHttp(this);
 		connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 		connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
 		http->setHost(url->host());
 		if(!url->userName().isEmpty())
-			http->setUser(url->userName(), url->password());
+            http->setUser(url->userName(), url->password());*/
 	}
 }
 
@@ -249,7 +249,7 @@ void HttpWorker::requestInfo(QBuffer* b)
 	{
 		syncRequest = true;
 		QUrl relativeUrl("./" + filename);
-		idReq = http->get(url->resolved(relativeUrl).path(), b);
+//		idReq = http->get(url->resolved(relativeUrl).path(), b);
 	}
 
 }
@@ -261,7 +261,7 @@ void HttpWorker::requestThumb(QBuffer* b)
 	{
 		syncRequest = true;
 		QUrl relativeUrl("./thumb.jpg");
-		idReq = http->get(url->resolved(relativeUrl).path(), b);
+//		idReq = http->get(url->resolved(relativeUrl).path(), b);
 	}
 }
 
@@ -272,7 +272,7 @@ void HttpWorker::abort()
 	{
 		timer->stop();
 		aborted = true;
-		http->abort();
+//		http->abort();
 	}
 }
 
